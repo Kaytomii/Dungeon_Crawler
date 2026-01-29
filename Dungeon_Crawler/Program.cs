@@ -3,6 +3,7 @@ using Dungeon_Crawler.Core.Monsters;
 using Dungeon_Crawler.Engine;
 using Dungeon_Crawler.Items;
 using Dungeon_Crawler.Items.Interfaces;
+using Dungeon_Crawler.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace Dungeon_Crawler;
@@ -23,7 +24,7 @@ internal class Program
 
         GameEngine engine = new GameEngine();
 
-        engine.OnMessageLog += message => logger.LogInformation(message);
+        engine.OnMessageLog += message => Logger.Log(message, LogType.Log);
 
         engine.GameMenu(hero, monsters);
     }
