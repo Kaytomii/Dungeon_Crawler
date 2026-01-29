@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Dungeon_Crawler.Items;
 using Dungeon_Crawler.Core;
+using Dungeon_Crawler.Items.Interfaces;
 
 namespace Dungeon_Crawler.Core.Monsters
 {
     public class Goblin : Monster
     {
-        public Goblin(object loot)
+        public Goblin(IItem loot)
             : base("Goblin", 40, 8, loot)
         {
         }

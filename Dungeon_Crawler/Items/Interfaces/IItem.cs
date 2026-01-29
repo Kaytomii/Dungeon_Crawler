@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Dungeon_Crawler.Items.Interfaces
+{
+    public interface IItem
+    {
+        string Name { get; }
+        string Description { get; }
+    }
+}
