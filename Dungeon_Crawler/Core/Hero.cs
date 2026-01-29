@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dungeon_Crawler.Items;
-using Dungeon_Crawler.Items.Interfaces;
+﻿using Dungeon_Crawler.Items.Interfaces;
 namespace Dungeon_Crawler.Core
 {
     public class Hero : Entity

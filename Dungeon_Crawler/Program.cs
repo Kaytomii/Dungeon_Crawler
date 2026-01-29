@@ -2,8 +2,9 @@
 using Dungeon_Crawler.Core.Monsters;
 using Dungeon_Crawler.Engine;
 using Dungeon_Crawler.Items;
-using Dungeon_Crawler.Serialize;
 using Dungeon_Crawler.Items.Interfaces;
+using Microsoft.Extensions.Logging;
+
 namespace Dungeon_Crawler;
 
 internal class Program
@@ -13,7 +14,6 @@ internal class Program
         Hero hero = new Hero("Test");
         hero.Inventory.Add(new Weapon("Sword", 5));
         hero.Inventory.Add(new HealingPotion());
-
         List<Monster> monsters = new List<Monster>
         {
             new Goblin(new Armor("Leather Armor", 2)),
@@ -22,7 +22,8 @@ internal class Program
         };
 
         GameEngine engine = new GameEngine();
-        engine.OnMessageLog += Console.WriteLine;
+
+        engine.OnMessageLog += message => logger.LogInformation(message);
 
         engine.GameMenu(hero, monsters);
     }

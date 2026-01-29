@@ -2,12 +2,7 @@
 using Dungeon_Crawler.Items.Interfaces;
 using Dungeon_Crawler.Serialize;
 using Dungeon_Crawler.Serialize.GameSerialize;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using Dungeon_Crawler.Utils;
 namespace Dungeon_Crawler.Engine;
 
 public class GameEngine
@@ -19,20 +14,20 @@ public class GameEngine
         while (hero.IsAlive && monster.IsAlive)
         {
             hero.Attack(monster);
-            Console.WriteLine($"{hero.Name} attacks {monster.Name}");
-            Console.WriteLine($"{monster.Name} HP: {monster.Health}");
+            Logger.Log($"{hero.Name} attacks {monster.Name}");
+            Logger.Log($"{monster.Name} HP: {monster.Health}");
 
             if (!monster.IsAlive)
                 break;
 
             monster.Attack(hero);
-            Console.WriteLine($"{monster.Name} attacks {hero.Name}");
-            Console.WriteLine($"{hero.Name} HP: {hero.Health}");
+            Logger.Log($"{monster.Name} attacks {hero.Name}");
+            Logger.Log($"{hero.Name} HP: {hero.Health}");
         }
 
-        Console.WriteLine("Battle ended");
-        Console.WriteLine($"{hero.Name} HP: {hero.Health}");
-        Console.WriteLine($"{monster.Name} HP: {monster.Health}");
+        Logger.Log("Battle ended");
+        Logger.Log($"{hero.Name} HP: {hero.Health}");
+        Logger.Log($"{monster.Name} HP: {monster.Health}");
 
     }
 
@@ -43,12 +38,12 @@ public class GameEngine
 
         while (running)
         {
-            Console.WriteLine("\n MENU ");
-            Console.WriteLine("1. Use item");
-            Console.WriteLine("2. Select monster");
-            Console.WriteLine("3. Start Battle with current monster");
-            Console.WriteLine("4. Save Game");
-            Console.WriteLine("5. Exit");
+            Logger.Log("\n MENU ");
+            Logger.Log("1. Use item");
+            Logger.Log("2. Select monster");
+            Logger.Log("3. Start Battle with current monster");
+            Logger.Log("4. Save Game");
+            Logger.Log("5. Exit");
             Console.Write("Your choice: ");
 
             string input = Console.ReadLine();
@@ -62,13 +57,13 @@ public class GameEngine
                 case "2":
                     if (monsters.Count == 0)
                     {
-                        Console.WriteLine("No monsters left");
+                        Logger.Log("No monsters left");
                     }
                     else
                     {
-                        Console.WriteLine("Choose monster:");
+                        Logger.Log("Choose monster:");
                         for (int i = 0; i < monsters.Count; i++)
-                            Console.WriteLine($"{i + 1}. {monsters[i].Name} (HP: {monsters[i].Health})");
+                            Logger.Log($"{i + 1}. {monsters[i].Name} (HP: {monsters[i].Health})");
 
                         string choice = Console.ReadLine();
                         int index = Convert.ToInt32(choice) - 1;
@@ -76,7 +71,7 @@ public class GameEngine
                         if (index >= 0 && index < monsters.Count)
                         {
                             currentMonster = monsters[index];
-                            Console.WriteLine($"Selected {currentMonster.Name}");
+                            Logger.Log($"Selected {currentMonster.Name}");
                         }
                     }
                     break;
@@ -84,17 +79,17 @@ public class GameEngine
                 case "3":
                     if (currentMonster == null)
                     {
-                        Console.WriteLine("No monster selected");
+                        Logger.Log("No monster selected");
                     }
                     else
                     {
                         Battle(hero, currentMonster);
 
-                        Console.WriteLine($"Hero HP after battle: {hero.Health}");
+                        Logger.Log($"Hero HP after battle: {hero.Health}");
 
                         if (!currentMonster.IsAlive)
                         {
-                            Console.WriteLine($"{currentMonster.Name} defeated");
+                            Logger.Log($"{currentMonster.Name} defeated");
                             monsters.Remove(currentMonster);
                             currentMonster = null;
                         }
@@ -110,19 +105,19 @@ public class GameEngine
                     break;
 
                 default:
-                    Console.WriteLine("Incorrect input");
+                    Logger.Log("Incorrect input");
                     break;
             }
 
             if (!hero.IsAlive)
             {
-                Console.WriteLine("Hero died");
+                Logger.Log("Hero died");
                 running = false;
             }
 
             if (monsters.Count == 0)
             {
-                Console.WriteLine("All monsters defeated");
+                Logger.Log("All monsters defeated");
                 running = false;
             }
         }
@@ -131,15 +126,15 @@ public class GameEngine
     {
         if (hero.Inventory.Count == 0)
         {
-            Console.WriteLine("Инвентарь пуст");
+            Logger.Log("Инвентарь пуст");
             return;
         }
 
-        Console.WriteLine("\nВыберите предмет:");
+        Logger.Log("\nВыберите предмет:");
 
         for (int i = 0; i < hero.Inventory.Count; i++)
         {
-            Console.WriteLine($"{i + 1}. {hero.Inventory[i].Name}");
+            Logger.Log($"{i + 1}. {hero.Inventory[i].Name}");
         }
 
         Console.Write("Выбор: ");
@@ -152,11 +147,11 @@ public class GameEngine
                 if (hero.Inventory[index] is IUsable usable)
                 {
                     usable.Use(hero);
-                    Console.WriteLine($"Using {hero.Inventory[index].Name}");
+                    Logger.Log($"Using {hero.Inventory[index].Name}");
                 }
                 else
                 {
-                    Console.WriteLine("You cant use this item ");
+                    Logger.Log("You cant use this item ", LogType.Warning);
                 }
             }
     }
@@ -171,7 +166,7 @@ public class GameEngine
         GameStorage storage = new GameStorage("save.json");
         storage.Save(state);
 
-        Console.WriteLine("Game Saved");
+        Logger.Log("Game Saved", LogType.Log);
     }
 
 }

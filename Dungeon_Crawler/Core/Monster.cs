@@ -1,10 +1,4 @@
 ﻿using Dungeon_Crawler.Items.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dungeon_Crawler.Items;
 namespace Dungeon_Crawler.Core
 {
     public abstract class Monster : Entity
