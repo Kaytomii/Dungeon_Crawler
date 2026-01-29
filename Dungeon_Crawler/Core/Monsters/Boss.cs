@@ -12,15 +12,15 @@ namespace Dungeon_Crawler.Core.Monsters
     public class Boss : Monster
     {
         public Boss(IItem loot)
-            : base("Boss", 200, 20, loot)
+            : base("Boss", 80, 16, loot)
         {
         }
 
         public override void Attack(Entity target)
         {
-            if (Health < 100)
+            if (Health < 20)
             {
-                target.TakeDamage(AttackPower * 2);
+                target.TakeDamage(AttackPower + 4);
             }
             else
             {

@@ -11,18 +11,17 @@ internal class Program
     static void Main(string[] args)
     {
         Hero hero = new Hero("Test");
-        hero.Inventory.Add(new Weapon("Sword", 5));
+        hero.Inventory.Add(new Weapon("Sword"));
         hero.Inventory.Add(new HealingPotion());
 
         List<Monster> monsters = new List<Monster>
         {
-            new Goblin(new Armor("Leather Armor", 2)),
-            new Orc(new Weapon("Axe", 7)),
+            new Goblin(new Armor("Leather Armor")),
+            new Orc(new Weapon("Axe")),
             new Boss(new HealingPotion())
         };
 
         GameEngine engine = new GameEngine();
-        engine.OnMessageLog += Console.WriteLine;
 
         engine.GameMenu(hero, monsters);
     }

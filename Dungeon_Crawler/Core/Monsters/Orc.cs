@@ -12,7 +12,7 @@ namespace Dungeon_Crawler.Core.Monsters
     public class Orc : Monster
     {
         public Orc(IItem loot)
-            : base("Orc", 80, 15, loot)
+            : base("Orc", 50, 12, loot)
         {
         }
 

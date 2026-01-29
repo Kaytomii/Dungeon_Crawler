@@ -12,6 +12,8 @@ namespace Dungeon_Crawler.Core
         public int Experience { get; private set; }
         public int Level { get; private set; }
         public List<IItem> Inventory { get; }
+        public Weapon EquippedWeapon { get; private set; }
+        public Armor EquippedArmor { get; private set; }
 
         public Hero(string name)
             : base(name, 100, 10)
@@ -30,12 +32,43 @@ namespace Dungeon_Crawler.Core
         {
             Experience += amount;
 
-            if (Experience >= Level * 100)
+            while (Experience >= Level * 100)
             {
+                Experience -= Level * 100;
                 Level++;
                 AttackPower += 5;
                 Health += 20;
+
+                Console.WriteLine($"{Name} leveled up Now level {Level}");
+            }
+
+        }
+
+        public string UseItem(IItem item)
+        {
+            switch (item)
+            {
+                case HealingPotion potion:
+                    potion.Use(this);
+                    Inventory.Remove(item);
+                    return $"Used {item.Name}";
+
+                case Weapon weapon:
+                    if (EquippedWeapon == weapon)
+                        return $"{weapon.Name} is already equipped";
+                    EquippedWeapon = weapon;
+                    return $"Equipped weapon: {weapon.Name}";
+
+                case Armor armor:
+                    if (EquippedArmor == armor)
+                        return $"{armor.Name} is already equipped";
+                    EquippedArmor = armor;
+                    return $"Equipped armor: {armor.Name}";
+
+                default:
+                    return "You cant use this item";
             }
         }
+
     }
 }

@@ -10,13 +10,9 @@ namespace Dungeon_Crawler.Items;
 public class Weapon : IItem
 {
     public string Name { get; }
-    public string Description { get; }
-    public int AttackBonus { get; }
 
-    public Weapon(string name, int attackBonus)
+    public Weapon(string name)
     {
         Name = name;
-        AttackBonus = attackBonus;
-        Description = $"Adds +{attackBonus} attack";
     }
 }

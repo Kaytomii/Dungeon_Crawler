@@ -9,6 +9,5 @@ namespace Dungeon_Crawler.Items.Interfaces
     public interface IItem
     {
         string Name { get; }
-        string Description { get; }
     }
 }

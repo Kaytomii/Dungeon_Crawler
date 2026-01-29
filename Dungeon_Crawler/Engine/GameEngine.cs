@@ -12,8 +12,6 @@ namespace Dungeon_Crawler.Engine;
 
 public class GameEngine
 {
-    public event Action<string> OnMessageLog;
-
     public void Battle(Hero hero, Monster monster)
     {
         while (hero.IsAlive && monster.IsAlive)
@@ -43,7 +41,7 @@ public class GameEngine
 
         while (running)
         {
-            Console.WriteLine("\n MENU ");
+            Console.WriteLine(" MENU ");
             Console.WriteLine("1. Use item");
             Console.WriteLine("2. Select monster");
             Console.WriteLine("3. Start Battle with current monster");
@@ -95,9 +93,20 @@ public class GameEngine
                         if (!currentMonster.IsAlive)
                         {
                             Console.WriteLine($"{currentMonster.Name} defeated");
-                            monsters.Remove(currentMonster);
-                            currentMonster = null;
+                            int GainedXp = 100;
+                            hero.GainExperience(GainedXp);
+                            Console.WriteLine($"Gained {GainedXp} XP, current XP {hero.Experience}");
                         }
+
+                        if (currentMonster.Loot != null)
+                        {
+                            Console.WriteLine($"Loot dropped: {currentMonster.Loot.Name}");
+                            hero.Inventory.Add(currentMonster.Loot);
+                            Console.WriteLine($"Added to inventory: {currentMonster.Loot.Name}");
+                        }
+
+                        monsters.Remove(currentMonster);
+                        currentMonster = null;
                     }
                     break;
 
@@ -131,33 +140,27 @@ public class GameEngine
     {
         if (hero.Inventory.Count == 0)
         {
-            Console.WriteLine("Инвентарь пуст");
+            Console.WriteLine("Inventory is empty");
             return;
         }
 
-        Console.WriteLine("\nВыберите предмет:");
+        Console.WriteLine("C:");
 
         for (int i = 0; i < hero.Inventory.Count; i++)
         {
             Console.WriteLine($"{i + 1}. {hero.Inventory[i].Name}");
         }
 
-        Console.Write("Выбор: ");
+        Console.Write("Choice: ");
         string input = Console.ReadLine();
 
         int index = Convert.ToInt32(input) - 1;
 
         if (index >= 0 && index < hero.Inventory.Count)
             {
-                if (hero.Inventory[index] is IUsable usable)
-                {
-                    usable.Use(hero);
-                    Console.WriteLine($"Using {hero.Inventory[index].Name}");
-                }
-                else
-                {
-                    Console.WriteLine("You cant use this item ");
-                }
+                IItem selectedItem = hero.Inventory[index];
+                string result = hero.UseItem(selectedItem);
+                Console.WriteLine(result);
             }
     }
     private void SaveGame(Hero hero, List<Monster> monsters)

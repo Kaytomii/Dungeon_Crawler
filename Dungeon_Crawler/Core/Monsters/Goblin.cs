@@ -12,7 +12,7 @@ namespace Dungeon_Crawler.Core.Monsters
     public class Goblin : Monster
     {
         public Goblin(IItem loot)
-            : base("Goblin", 40, 8, loot)
+            : base("Goblin", 25, 8, loot)
         {
         }
 
